@@ -81,24 +81,6 @@ public class Problem8
 	}
 
 	/**
-	 * Determines if a given number is prime.
-	 *
-	 * @param value
-	 *        the value to check if prime
-	 * @return true if the value is prime
-	 */
-	static boolean isPrime(final long value)
-	{
-		for (long x = 2; x < value; x++) {
-			if ((value % x) == 0) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Prints a value.
 	 *
 	 * @param value
