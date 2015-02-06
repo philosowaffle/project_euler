@@ -54,7 +54,21 @@ public class Problem7
 	 */
 	static boolean isPrime(final long value)
 	{
-		for (long x = 2; x < value; x++) {
+		// 2 is Prime
+		if (value == 2) {
+			return true;
+		}
+
+		// Check if even
+		if ((value % 2) == 0) {
+			return false;
+		}
+
+		final long cap = value / 2;
+
+		// Only need to check odds because all primes
+		// are odd
+		for (long x = 3; x < cap; x += 2) {
 			if ((value % x) == 0) {
 				return false;
 			}
