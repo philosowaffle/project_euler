@@ -28,7 +28,7 @@
  */
 public class Problem11
 {
-	private final static long solution = 142913828922L;
+	private final static long solution = 70600674L;
 
 	/**
 	 * Main
@@ -51,19 +51,18 @@ public class Problem11
 		final int[][] digits = prepareData();
 
 		answer = calculateDown(digits, 4);
-		final int right = calculateLargestRight(digits, 4);
+		final long right = calculateLargestRight(digits, 4);
+		final long diagonalRightDown = calculateLargestDiagRight(digits, 4);
+		final long diagonalLeftDown = calculateLargestDiagLeft(digits, 4);
 
 		if (answer < right) {
 			answer = right;
 		}
 
-		final int diagonalRightDown = calculateLargestDiagRight(digits, 4);
-
 		if (answer < diagonalRightDown) {
 			answer = diagonalRightDown;
 		}
 
-		final int diagonalLeftDown = calculateLargestDiagLeft(digits, 4);
 		if (answer < diagonalLeftDown) {
 			answer = diagonalLeftDown;
 		}
@@ -82,25 +81,24 @@ public class Problem11
 	 *        the number of consecutive digits to multiply
 	 * @return the largest product
 	 */
-	static int calculateLargestRight(final int[][] data, final int sequenceSize)
+	static long calculateLargestRight(final int[][] data, final int sequenceSize)
 	{
-		int largest = 0;
+		long largest = 0;
 		final int seqSize = sequenceSize;
 
-		final int columns = data[0].length;
-		final int rows = data.length;
+		final int columns = data[0].length - sequenceSize;
+		final int rows = data.length - sequenceSize;
 
 		if (rows != columns) {
 			return -1;
 		}
 
 		for (int r = 0; r < rows; r++) {
-
 			for (int c = 0; c < columns; c++) {
-				int product = 1;
-				for (int seq = c; seq < (c + seqSize); seq++) {
-					if (seq < columns) {
-						product *= data[r][c];
+				long product = 1;
+				for (int seq = 0; seq < seqSize; seq++) {
+					if ((c + seq) < columns) {
+						product *= data[r][c + seq];
 					}
 				}
 
@@ -125,13 +123,13 @@ public class Problem11
 	 *        the number of consecutive digits to multiply
 	 * @return the largest product
 	 */
-	static int calculateLargestDiagRight(final int[][] data, final int sequenceSize)
+	static long calculateLargestDiagRight(final int[][] data, final int sequenceSize)
 	{
-		int largest = 0;
+		long largest = 0;
 		final int seqSize = sequenceSize;
 
-		final int columns = data[0].length;
-		final int rows = data.length;
+		final int columns = data[0].length - sequenceSize;
+		final int rows = data.length - sequenceSize;
 
 		if (rows != columns) {
 			return -1;
@@ -139,9 +137,9 @@ public class Problem11
 
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
-				int product = 1;
+				long product = 1;
 
-				for (int seq = 1; seq <= seqSize; seq++) {
+				for (int seq = 0; seq < seqSize; seq++) {
 					if (((c + seq) < columns) && ((r + seq) < rows)) {
 						product *= data[r + seq][c + seq];
 					}
@@ -168,13 +166,13 @@ public class Problem11
 	 *        the number of consecutive digits to multiply
 	 * @return the largest product
 	 */
-	static int calculateLargestDiagLeft(final int[][] data, final int sequenceSize)
+	static long calculateLargestDiagLeft(final int[][] data, final int sequenceSize)
 	{
-		int largest = 0;
+		long largest = 0;
 		final int seqSize = sequenceSize;
 
-		final int columns = data[0].length;
-		final int rows = data.length;
+		final int columns = data[0].length - seqSize;
+		final int rows = data.length - seqSize;
 
 		if (rows != columns) {
 			return -1;
@@ -182,14 +180,13 @@ public class Problem11
 
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
-				int product = 1;
+				long product = 1;
 
-				for (int seq = 1; seq <= seqSize; seq++) {
-					if (((c - seq) > 0) && ((r - seq) > 0)) {
-						product *= data[r - seq][c - seq];
+				for (int seq = 0; seq < seqSize; seq++) {
+					if (((c - seq) >= 0) && ((r + seq) < rows)) {
+						product *= data[r + seq][c - seq];
 					}
 				}
-
 				if (product > largest) {
 					largest = product;
 				}
@@ -210,13 +207,13 @@ public class Problem11
 	 *        the number of consecutive digits to multiply
 	 * @return the largest product
 	 */
-	static int calculateDown(final int[][] data, final int sequenceSize)
+	static long calculateDown(final int[][] data, final int sequenceSize)
 	{
-		int largest = 0;
+		long largest = 0;
 		final int seqSize = sequenceSize;
 
-		final int columns = data[0].length;
-		final int rows = data.length;
+		final int columns = data[0].length - seqSize;
+		final int rows = data.length - seqSize;
 
 		if (rows != columns) {
 			return -1;
@@ -224,9 +221,9 @@ public class Problem11
 
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
-				int product = 1;
+				long product = 1;
 
-				for (int seq = 1; seq <= seqSize; seq++) {
+				for (int seq = 0; seq < seqSize; seq++) {
 					if ((r + seq) < rows) {
 						product *= data[r + seq][c];
 					}
