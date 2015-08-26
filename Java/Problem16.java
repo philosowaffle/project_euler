@@ -1,5 +1,3 @@
-package CTGApp.handlers;
-
 import java.math.BigInteger;
 
 /**
